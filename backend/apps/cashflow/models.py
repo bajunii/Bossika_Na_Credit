@@ -83,7 +83,7 @@ class CashFlow(TimeStampedModel):
         return self.amount
    
    
-    # compute balance automctically 
+    # compute balance automatically 
     def save(self, *args, **kwargs):
         if not self.balance:
             previous = CashFlow.objects.filter(
