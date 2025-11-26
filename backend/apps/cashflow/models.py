@@ -1,7 +1,7 @@
 from django.db import models
 from apps.business.models import BusinessProfile
 from apps.users.models import TimeStampedModel
-
+from django.db import transaction
 
 class CashFlow(TimeStampedModel):
     MONTH_CHOICES = (
@@ -85,13 +85,14 @@ class CashFlow(TimeStampedModel):
    
     # compute balance automctically 
     def save(self, *args, **kwargs):
-        if not self.balance:
-            previous = CashFlow.objects.filter(
-                business=self.business,
-                date_recorded__lt=self.date_recorded
-            ).order_by("-date_recorded").first()
+        with transaction.atomic():
+            if not self.balance:
+                previous = CashFlow.objects.filter(
+                    business=self.business,
+                    date_recorded__lt=self.date_recorded
+                ).order_by("-date_recorded").first()
 
-            prev_balance = previous.balance if previous else 0
-            self.balance = prev_balance + self.signed_amount
+                prev_balance = previous.balance if previous else 0
+                self.balance = prev_balance + self.signed_amount
 
-        super().save(*args, **kwargs)
+            super().save(*args, **kwargs)
