@@ -20,6 +20,8 @@ class Command(BaseCommand):
                 "password": "456",
                 "username": "james",
             }
+             # WARNING: The passwords below are for development/testing only.
+        # NEVER use these passwords in production. Use strong, unique passwords for real users.
         ]
 
         cashflow_data = [
@@ -27,21 +29,21 @@ class Command(BaseCommand):
                 "cashflow_type": "INCOME",
                 "category": "SALES",
                 "amount": 6000.00,
-                "month": "JANUARY",
+                "month": "JAN",
                 "date_recorded" : "2025-01-12"
             },
             {
                 "cashflow_type": "EXPENSE",
                 "category": "EMPLOYEE_SALARY",
                 "amount": 2000.00,
-                "month": "JANUARY",
+                "month": "JAN",
                 "date_recorded" : "2025-01-12"
 
             },
             {
                 "cashflow_type": "LOAN_INFLOW",
                 "amount": 1000.00,
-                "month": "JANUARY",
+                "month": "JAN",
                 "date_recorded" : "2025-01-12"
 
             },
@@ -74,7 +76,7 @@ class Command(BaseCommand):
                 user=user,
                 business_name=f"{u['username']}'s First Business",
                 size='0-10',
-                business_type='service',
+                business_type='SERVICE',
                 operation_period=1
             )
 
@@ -82,7 +84,7 @@ class Command(BaseCommand):
                 user=user,
                 business_name=f"{u['username']}'s Second Business",
                 size='0-10',
-                business_type='retail',
+                business_type='RETAIL',
                 operation_period=2
             )
 

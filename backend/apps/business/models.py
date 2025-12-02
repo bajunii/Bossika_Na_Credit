@@ -63,5 +63,16 @@ class BusinessProfile(TimeStampedModel):
      
     @property
     def total_net_cash_flow(self):
-        qs = self.cashflows.all()
-        return sum(cf.signed_amount for cf in qs)
+        result = self.cashflows.aggregate(
+            total=models.Sum(
+                models.Case(
+                    models.When(
+                        cashflow_type__in=['EXPENSE', 'LOAN_REPAYMENT'],
+                        then=-models.F('amount')
+                    ),
+                    default=models.F('amount'),
+                    output_field=models.DecimalField()
+                )
+            )
+        )
+        return result['total'] or 0
